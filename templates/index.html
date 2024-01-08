@@ -1,0 +1,386 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+        <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin-top : 10%%
+
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        #container2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+        #logo {
+            color: #00529c;
+            /* Enedis Blue, replace with the actual color */
+            margin-bottom: 20px;
+        }
+
+        #titre {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #00529c;
+            /* Enedis Blue, replace with the actual color */
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: inline-block;
+            background-color: #00529c;
+            /* Enedis Blue, replace with the actual color */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        label:hover {
+            background-color: #003366;
+            /* Darker shade for hover, replace with the actual color */
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        button {
+            background-color: #4caf50;
+            /* Green, replace with the actual color */
+            color: #ffffff;
+            padding: 18px 180px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            /* Darker shade for hover, replace with the actual color */
+        }
+
+        #file-name {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #00529c;
+            font-size: large;
+            font-style: bold;
+        }
+
+        #schema_unifulaire-name {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #00529c;
+            font-size: large;
+            font-style: bold;
+        }
+
+        #done {
+            display: none;
+            margin-bottom: 15px;
+            /* background-color: #4caf50; Green, replace with the actual color */
+            color: #000000;
+            padding: 18px 180px;
+            /* border: none;
+            border-radius: 5px; */
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 5px
+        }
+
+ 
+
+        #tiers-section {
+            margin-top: 0px;
+            display: flex;
+            align-items: center;
+            margin: 10px
+        }
+
+        .tiers-item {
+            display: flex;
+            align-items: center;
+            margin-top: -15px
+        }
+
+        #tiers-info-section {
+            display: none;
+            justify-content: center;
+            margin: 8%;
+            margin-top: -5px
+        }
+
+        .tiers-divs {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #tiers_name {
+            padding: 100%
+        }
+
+        #tiers_email {
+            width: 100%
+        }
+
+
+        /* Drag and drop area styles */
+        #drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            width: 90%;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #drop-area:hover {
+            background-color: #f8f9fa;
+        }
+
+        #pdf-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            width: 90%;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        #pdf-drop-area:hover {
+            background-color: #f8f9fa;
+        }
+
+        #pdf_container{
+            margin : 20px
+        }
+
+
+        #total{
+            margin-left : 8px;
+            margin-bottom : 2px
+        }
+        #surplus{
+            margin-bottom : 2px
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="logo">
+            <h1>CONTRAT CARD-I</h1>
+        </div>
+        <div id="titre">
+            <h1>EDITER CONDITIONS PARTICULIERES</h1>
+            <form action="/convert" method="post" enctype="multipart/form-data">
+
+                <!-- Drag and drop area -->
+                <div id="drop-area" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+                    Glissez le card-i ici
+                </div>
+                
+
+                <input type="file" name="doc_file" id="file" accept=".doc" onchange="updateFileName()">
+                <label for="file">Click here to select a .doc file</label>
+
+                <div id="file-name"></div>
+                
+
+
+  
+
+
+
+           <div id="pdf_container">
+            <div id="pdf-drop-area" ondrop="handleDropPdf(event)" ondragover="handleDragOverPdf(event)">
+                Glissez le schéma unifulaire ici (PDF)
+            </div>
+            
+
+            <input type="file" name="schema_unifulaire" id="schema_unifulaire" accept="pdf, png, jpeg" onchange="updatePdfName()">
+            <label for="schema_unifulaire">Click here to select a pdf file</label>
+
+            <div id="schema_unifulaire-name"></div>
+           </div>
+
+
+                <div id="tiers-section">
+                    <text>Tiers à la publication ? </text>
+                    <div class="radio-group">
+                        <div class="tiers-item">
+                            <text>Oui</text>
+                            <input type="radio" name="tiers" id="yes" value="yes" onclick="handleTiersClick(value)"
+                                required>
+                        </div>
+                        <div class="tiers-item">
+                            <text>Non</text>
+                            <input type="radio" name="tiers" id="no" value="no" onclick="handleTiersClick(value)"
+                                required>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tiers-info-section">
+                    <div class="tiers-divs">
+                        <div>
+                            <text for="tiers-email">Nom tiers :</text>
+                            <input type="text" name="tiers_name" id="tiers-name">
+                        </div>
+
+                        <div>
+                            <text for="tiers-email">E-mail tiers :</text>
+                            <input type="text" name="tiers_email" id="tiers-email">
+                        </div>
+                    </div>
+                </div>
+
+           <div id="done">DONE</div>
+
+                <button type="submit" onclick="showDone()">Editer</button>
+            </form>
+        </div>
+    </div>
+  
+
+    
+
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+
+
+    <script>
+        let done = false;
+
+        function updateFileName() {
+            const fileInput = document.getElementById('file');
+            const fileNameDisplay = document.getElementById('file-name');
+            const fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file selected';
+            
+            fileNameDisplay.textContent = `Selected file: ${fileName}`;
+            done = true;
+            
+        }
+
+        function updatePdfName() {
+            const pdfInput = document.getElementById('schema_unifulaire');
+            const pdfNameDisplay = document.getElementById('schema_unifulaire-name');
+            const pdfName = pdfInput.files[0] ? pdfInput.files[0].name : 'No file selected';
+            
+            pdfNameDisplay.textContent = `Selected file: ${pdfName}`;
+            done = true;
+            
+        }
+        
+          // Check if the success flag is set to trigger a page reload
+        
+
+        function showDone() {
+            const doneDiv = document.getElementById('done');
+            doneDiv.style.display = done ? 'block' : 'none';
+         
+        }
+
+        //function resetForm() {
+            //document.getElementById("myForm").reset();
+
+        // Drag and drop functionality
+
+        function handleDropPdf(event) {
+            event.preventDefault();
+            const pdfInput = document.getElementById('schema_unifulaire');
+            pdfInput.files = event.dataTransfer.files;
+            updatePdfName();
+        }
+
+        function handleDragOverPdf(event) {
+            event.preventDefault();
+        }
+
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('file');
+            fileInput.files = event.dataTransfer.files;
+            updateFileName();
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+        }
+
+        function handleTiersClick(value) {
+
+            // Your code to show or hide elements based on the "Oui" selection
+            if (value == 'yes') {
+                const tiersInfoSection = document.getElementById('tiers-info-section');
+                tiersInfoSection.style.display = 'block';  // or 'none' to hide
+            }
+            if (value == 'no') {
+                const tiersInfoSection = document.getElementById('tiers-info-section');
+                tiersInfoSection.style.display = 'none';  // or 'none' to hide
+            }
+
+        }
+
+    
+    </script>
+</body>
+</html>
